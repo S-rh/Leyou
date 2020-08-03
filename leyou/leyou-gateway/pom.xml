@@ -9,8 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.leyou.getway</groupId>
-    <artifactId>leyou-getway</artifactId>
+    <groupId>com.leyou.gateway</groupId>
+    <artifactId>leyou-gateway</artifactId>
 
     <dependencies>
         <!-- Eureka客户端 -->
@@ -24,6 +24,5 @@
             <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
         </dependency>
     </dependencies>
-
 
 </project>

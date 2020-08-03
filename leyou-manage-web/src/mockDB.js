@@ -1,6 +1,7 @@
 
   // 分类
- const treeData = [{
+ const treeData = [
+   {
     "id": 74,
     "name": "手机",
     "parentId": 0,
@@ -859,7 +860,8 @@
       }]
     }]
   }];
-const brandData = [{"id": 1115, "name": "HTC", "image": "", "letter": "H", "categories": null}, {
+const brandData = [
+  {"id": 1115, "name": "HTC", "image": "", "letter": "H", "categories": null}, {
     "id": 1528,
     "name": "LG",
     "image": "",
@@ -891,7 +893,8 @@ const brandData = [{"id": 1115, "name": "HTC", "image": "", "letter": "H", "cate
     "categories": null
   }];
 // 商品
- const goodsData = [{
+ const goodsData = [
+   {
     "id": 145,
     "brandId": 91515,
     "cid1": 74,
@@ -1293,7 +1296,8 @@ const brandData = [{"id": 1115, "name": "HTC", "image": "", "letter": "H", "cate
     "brandName": "华为（HUAWEI）"
   }];
 // 规格参数
- const phoneSpec = [{
+ const phoneSpec = [
+   {
     "group": "主体",
     "params": [{"k": "品牌", "searchable": false, "global": true, "options": []}, {
       "k": "型号",

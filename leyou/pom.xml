@@ -13,6 +13,8 @@
         <module>leyou-getway</module>
         <module>leyou-item</module>
         <module>leyou-common</module>
+        <module>gateway</module>
+        <module>leyou-gateway</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
