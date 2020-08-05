@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -39,7 +40,15 @@ public class CategoryController {
         }
         // 200：查询成功
         return ResponseEntity.ok(categories);
+    }
 
+    @GetMapping("/bid/{bid}")
+    public ResponseEntity<List<Category>> queryCategoriesByBid(@PathVariable("bid") Long bid) {
+        List<Category> categories = this.categoryService.queryCategoriesByBid(bid);
+        if (CollectionUtils.isEmpty(categories)) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(categories);
     }
 
 }

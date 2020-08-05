@@ -58,6 +58,19 @@ public class BrandServiceImpl implements BrandService {
         cids.forEach(cid->{
             this.brandMapper.insertCategoryBrand(cid, brand.getId());
         });
+    }
+
+    @Override
+    @Transactional
+    public void uploadBrand(Brand brand, List<Long> cids) {
+        Example example = new Example(Brand.class);
+        this.brandMapper.updateByPrimaryKeySelective(brand);
+
+        this.brandMapper.deleteCategoryBrand(brand.getId());
+
+        cids.forEach(cid->{
+            this.brandMapper.insertCategoryBrand(cid, brand.getId());
+        });
 
     }
 }

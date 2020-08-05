@@ -23,4 +23,11 @@ public interface BrandService {
      * @param cids
      */
     void saveBrand(Brand brand, List<Long> cids);
+
+    /**
+     * 修改品牌信息
+     * @param brand
+     * @param cids
+     */
+    void uploadBrand(Brand brand, List<Long> cids);
 }
