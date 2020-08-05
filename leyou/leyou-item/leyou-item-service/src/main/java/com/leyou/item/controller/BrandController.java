@@ -69,4 +69,10 @@ public class BrandController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @GetMapping("/delete/{bid}")
+    public ResponseEntity<Void> deleteBrand(@PathVariable("bid") Long bid) {
+        this.brandService.deleteBrand(bid);
+        return ResponseEntity.ok().build();
+    }
+
 }

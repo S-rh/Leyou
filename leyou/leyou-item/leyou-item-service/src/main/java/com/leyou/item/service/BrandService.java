@@ -30,4 +30,10 @@ public interface BrandService {
      * @param cids
      */
     void uploadBrand(Brand brand, List<Long> cids);
+
+    /**
+     * 删除品牌信息
+     * @param bid
+     */
+    void deleteBrand(Long bid);
 }

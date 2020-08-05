@@ -1,7 +1,6 @@
 package com.leyou.item.mapper;
 
 import com.leyou.item.pojo.Category;
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import tk.mybatis.mapper.common.Mapper;
 
