@@ -5,10 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.leyou.common.pojo.PageResult;
 import com.leyou.item.bo.SpuBo;
 import com.leyou.item.mapper.*;
-import com.leyou.item.pojo.Brand;
-import com.leyou.item.pojo.Spu;
-import com.leyou.item.pojo.SpuDetail;
-import com.leyou.item.pojo.Stock;
+import com.leyou.item.pojo.*;
 import com.leyou.item.service.CategoryService;
 import com.leyou.item.service.GoodsService;
 import org.apache.commons.lang.StringUtils;
@@ -95,6 +92,57 @@ public class GoodsServiceImpl implements GoodsService {
         spuDetail.setSpuId(spuBo.getId());
         this.spuDetailMapper.insertSelective(spuDetail);
 
+        // 新增sku和stock
+        saveSkuAndStock(spuBo);
+    }
+
+
+
+    @Override
+    @Transactional
+    public void updateGoods(SpuBo spuBo) {
+        // 删除stock表数据
+        Sku record = new Sku();
+        record.setSpuId(spuBo.getId());
+        List<Sku> skus = this.skuMapper.select(record);
+        skus.forEach(sku -> this.stockMapper.deleteByPrimaryKey(sku.getId()));
+
+        // 删除sku表数据
+        this.skuMapper.delete(record);
+
+        // 更新spu表数据
+        spuBo.setLastUpdateTime(new Date());
+        spuBo.setSaleable(null);
+        spuBo.setValid(null);
+        this.spuMapper.updateByPrimaryKeySelective(spuBo);
+
+        // 更新spuDetail表数据
+        this.spuDetailMapper.updateByPrimaryKeySelective(spuBo.getSpuDetail());
+
+        // 新增sku和stock
+        saveSkuAndStock(spuBo);
+    }
+
+    @Override
+    public SpuDetail querySpuDetailBySpuId(Long spuId) {
+        return this.spuDetailMapper.selectByPrimaryKey(spuId);
+    }
+
+    @Override
+    public List<Sku> querySkusBySpuId(Long spuId) {
+        Sku record = new Sku();
+        record.setSpuId(spuId);
+        List<Sku> skus = this.skuMapper.select(record);
+        skus.forEach(sku -> sku.setStock(this.stockMapper.selectByPrimaryKey(sku.getId()).getStock()));
+        return skus;
+    }
+
+
+    /**
+     * 新增sku和stock
+     * @param spuBo
+     */
+    private void saveSkuAndStock(SpuBo spuBo) {
         spuBo.getSkus().forEach(sku -> {
             // 添加sku表数据
             sku.setId(null);
@@ -110,4 +158,5 @@ public class GoodsServiceImpl implements GoodsService {
             this.stockMapper.insertSelective(stock);
         });
     }
+
 }
