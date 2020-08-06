@@ -121,7 +121,7 @@
         // 控制弹窗可见：
         this.show = true;
         // 把oldBrand变为null
-        this.oldBrand = null;
+        this.oldBrand = {};
       },
       editBrand(oldBrand){
         // 根据品牌信息查询商品分类

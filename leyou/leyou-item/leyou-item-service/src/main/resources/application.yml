@@ -5,7 +5,7 @@ spring:
   application:
     name: item-service
   datasource:
-    url: jdbc:mysql:///leyou
+    url: jdbc:mysql:///leyou?useUnicode=true&amp&characterEncoding=utf-8
     username: root
     password: 1124219379
     driver-class-name: com.mysql.jdbc.Driver

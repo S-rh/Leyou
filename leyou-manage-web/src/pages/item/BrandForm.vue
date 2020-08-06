@@ -102,7 +102,7 @@
               name: '',
               letter: '',
               image: '',
-              categories: [],
+              categories: []
             }
           }
         },

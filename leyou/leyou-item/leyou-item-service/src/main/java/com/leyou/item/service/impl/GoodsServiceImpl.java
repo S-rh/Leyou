@@ -4,22 +4,22 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.leyou.common.pojo.PageResult;
 import com.leyou.item.bo.SpuBo;
-import com.leyou.item.mapper.BrandMapper;
-import com.leyou.item.mapper.SpuDetailMapper;
-import com.leyou.item.mapper.SpuMapper;
+import com.leyou.item.mapper.*;
 import com.leyou.item.pojo.Brand;
 import com.leyou.item.pojo.Spu;
 import com.leyou.item.pojo.SpuDetail;
+import com.leyou.item.pojo.Stock;
 import com.leyou.item.service.CategoryService;
 import com.leyou.item.service.GoodsService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +34,10 @@ public class GoodsServiceImpl implements GoodsService {
     private BrandMapper brandMapper;
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    private SkuMapper skuMapper;
+    @Autowired
+    private StockMapper stockMapper;
 
     @Override
     public PageResult<SpuBo> querySpuByPage(String key, Boolean saleable, Integer page, Integer rows) {
@@ -71,9 +75,39 @@ public class GoodsServiceImpl implements GoodsService {
 
         }).collect(Collectors.toList());
 
-
-
         // 返回分页结果集
         return new PageResult<SpuBo>(pageInfo.getTotal(), spuBos);
+    }
+
+    @Override
+    @Transactional
+    public void saveGoods(SpuBo spuBo) {
+        // 添加spu表数据
+        spuBo.setId(null);
+        spuBo.setSaleable(true);
+        spuBo.setValid(true);
+        spuBo.setCreateTime(new Date());
+        spuBo.setLastUpdateTime(spuBo.getCreateTime());
+        this.spuMapper.insertSelective(spuBo);
+
+        // 添加spuDetail表数据
+        SpuDetail spuDetail = spuBo.getSpuDetail();
+        spuDetail.setSpuId(spuBo.getId());
+        this.spuDetailMapper.insertSelective(spuDetail);
+
+        spuBo.getSkus().forEach(sku -> {
+            // 添加sku表数据
+            sku.setId(null);
+            sku.setSpuId(spuBo.getId());
+            sku.setCreateTime(spuBo.getCreateTime());
+            sku.setLastUpdateTime(spuBo.getLastUpdateTime());
+            this.skuMapper.insertSelective(sku);
+
+            // 新增stock表数据
+            Stock stock = new Stock();
+            stock.setSkuId(sku.getId());
+            stock.setStock(sku.getStock());
+            this.stockMapper.insertSelective(stock);
+        });
     }
 }

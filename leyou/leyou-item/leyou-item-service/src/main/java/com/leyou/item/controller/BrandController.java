@@ -69,10 +69,29 @@ public class BrandController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    /**
+     * 删除品牌
+     * @param bid
+     * @return
+     */
     @GetMapping("/delete/{bid}")
     public ResponseEntity<Void> deleteBrand(@PathVariable("bid") Long bid) {
         this.brandService.deleteBrand(bid);
         return ResponseEntity.ok().build();
+    }
+
+    /**
+     * 根据分类Id查询品牌
+     * @param cid
+     * @return
+     */
+    @GetMapping("cid/{cid}")
+    public ResponseEntity<List<Brand>> queryBrandsByCid(@PathVariable("cid") Long cid) {
+        List<Brand> brands = this.brandService.queryBrandsByCid(cid);
+        if (CollectionUtils.isEmpty(brands)) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(brands);
     }
 
 }

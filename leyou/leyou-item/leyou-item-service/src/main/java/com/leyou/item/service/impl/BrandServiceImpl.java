@@ -78,4 +78,9 @@ public class BrandServiceImpl implements BrandService {
         this.brandMapper.deleteCategoryBrand(bid);
         this.brandMapper.deleteByPrimaryKey(bid);
     }
+
+    @Override
+    public List<Brand> queryBrandsByCid(Long cid) {
+        return this.brandMapper.queryBrandsByCid(cid);
+    }
 }
