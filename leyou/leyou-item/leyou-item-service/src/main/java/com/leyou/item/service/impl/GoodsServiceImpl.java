@@ -87,6 +87,7 @@ public class GoodsServiceImpl implements GoodsService {
         spuBo.setLastUpdateTime(spuBo.getCreateTime());
         this.spuMapper.insertSelective(spuBo);
 
+
         // 添加spuDetail表数据
         SpuDetail spuDetail = spuBo.getSpuDetail();
         spuDetail.setSpuId(spuBo.getId());

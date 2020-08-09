@@ -52,6 +52,11 @@ public class GoodsController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * 更新商品信息
+     * @param spuBo
+     * @return
+     */
     @PutMapping("/goods")
     public ResponseEntity<Void> updateGoods(@RequestBody SpuBo spuBo) {
         this.goodsService.updateGoods(spuBo);
